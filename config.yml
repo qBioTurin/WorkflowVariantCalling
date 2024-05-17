@@ -1,0 +1,7 @@
+fastq_directory:
+  class: Directory
+  location: /storage/Pavia/test 
+index:
+  class: File
+  path: /storage/Ref/hg38/hg38.fa
+threads: 30 

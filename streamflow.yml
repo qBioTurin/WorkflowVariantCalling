@@ -1,0 +1,23 @@
+#!/usr/bin/env streamflow
+version: v1.0
+workflows:
+  workflow:
+    type: cwl
+    config:
+      file: workflow.cwl
+      settings: config.yml
+    bindings:
+      - step: /genomemapper 
+        target:
+          deployment: slurm-genomemapper
+          workdir: /beegfs/home/scontald/sf_tmp
+
+deployments:
+  slurm-genomemapper:
+    type: slurm
+    config:
+      hostname: c3sfr1.di.unito.it
+      username: scontald
+      sshKey: key/id_rsa  
+      maxConcurrentJobs: 20
+      file: ./sbatch/genomeMapper.sh
