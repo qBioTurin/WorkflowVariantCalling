@@ -11,6 +11,10 @@ workflows:
         target:
           deployment: slurm-genomemapper
           workdir: /beegfs/home/scontald/sf_tmp
+      - step: /mutect2 
+        target:
+          deployment: slurm-mutect2
+          workdir: /beegfs/home/scontald/sf_tmp
 
 deployments:
   slurm-genomemapper:
@@ -21,3 +25,11 @@ deployments:
       sshKey: key/id_rsa  
       maxConcurrentJobs: 20
       file: ./sbatch/genomeMapper.sh
+  slurm-mutect2:
+    type: slurm
+    config:
+      hostname: c3sfr1.di.unito.it
+      username: scontald
+      sshKey: key/id_rsa  
+      maxConcurrentJobs: 20
+      file: ./sbatch/mutect2.sh

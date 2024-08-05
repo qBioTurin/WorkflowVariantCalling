@@ -10,7 +10,6 @@ requirements:
 inputs:
   fastq_directory: Directory
   threads: int?
-  genes_positions: File?
   index:
     type: File
     secondaryFiles:
@@ -20,11 +19,15 @@ inputs:
       - .fai
       - .pac
       - .sa
+      - ^.dict
 
 outputs: 
-  genomemapper_output:
+  filtered_vcf:
     type: File[]
-    outputSource: genomemapper/sam
+    outputSource: mutect2/filtered
+  table_vcf_output:
+    type: File[]
+    outputSource: mutect2/table_vcf
 
 steps:
   zerothstep:
@@ -42,3 +45,11 @@ steps:
       index: index
       threads: threads
     out: [sam] 
+  mutect2:
+    run: cwl/Mutect2.cwl
+    scatter: [sam_input]
+    in:
+      sam_input: genomemapper/sam
+      genome: index
+      threads: threads
+    out: [filtered, table_vcf]
